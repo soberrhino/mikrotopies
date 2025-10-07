@@ -36,7 +36,7 @@
     <div id="canvas-container"></div>
 
     <!-- Interface utilisateur -->
-    <div class="relative z-10 flex flex-col items-center justify-end min-h-screen p-4">
+    <div class="relative z-10 flex flex-col items-center justify-end h-screen p-4 pb-16 sm:pb-4">
         <button id="toggle-ui-button" class="w-full max-w-2xl mb-2 bg-white/80 backdrop-blur-sm text-gray-800 font-bold py-2 px-4 rounded-full shadow-lg hover:bg-white focus:outline-none transition-all duration-300 ease-in-out">
             Afficher les options
         </button>
@@ -151,7 +151,7 @@
             scene.background = new THREE.Color(0x111827);
 
             camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.set(0, 8, 8);
+            camera.position.set(0, 10, 10); // Caméra un peu plus haute et reculée
             camera.lookAt(0, 0, 0);
 
             renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -178,11 +178,9 @@
             groundTextureCanvas.width = 1024;
             groundTextureCanvas.height = 1024;
             
-            // Fond vert
-            context.fillStyle = '#108d47'; // Vert feutre
+            context.fillStyle = '#108d47';
             context.fillRect(0, 0, groundTextureCanvas.width, groundTextureCanvas.height);
 
-            // Texte "Mikrotopies"
             context.font = 'bold 120px "Inter", sans-serif';
             context.fillStyle = 'rgba(255, 255, 255, 0.7)';
             context.textAlign = 'center';
@@ -191,7 +189,7 @@
 
             const groundTexture = new THREE.CanvasTexture(groundTextureCanvas);
             
-            const groundGeometry = new THREE.PlaneGeometry(20, 20);
+            const groundGeometry = new THREE.PlaneGeometry(30, 30); // Tapis agrandi
             const groundMaterial = new THREE.MeshStandardMaterial({ map: groundTexture });
             const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
             groundMesh.rotation.x = -Math.PI / 2;
