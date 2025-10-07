@@ -151,7 +151,8 @@
             scene.background = new THREE.Color(0x111827);
 
             camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.set(0, 10, 10); // Caméra un peu plus haute et reculée
+            // MODIFICATION: Caméra reculée pour mieux voir le texte
+            camera.position.set(0, 12, 14); 
             camera.lookAt(0, 0, 0);
 
             renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -189,13 +190,12 @@
 
             const groundTexture = new THREE.CanvasTexture(groundTextureCanvas);
             
-            const groundGeometry = new THREE.PlaneGeometry(30, 30); // Tapis agrandi
+            const groundGeometry = new THREE.PlaneGeometry(30, 30); 
             const groundMaterial = new THREE.MeshStandardMaterial({ map: groundTexture });
             const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
             groundMesh.rotation.x = -Math.PI / 2;
             groundMesh.receiveShadow = true;
             scene.add(groundMesh);
-
 
             window.addEventListener('resize', onWindowResize, false);
             animate();
@@ -222,7 +222,6 @@
                 hideUi();
             }
         });
-
 
         // --- Création de l'interface utilisateur ---
         function createUI() {
@@ -282,7 +281,8 @@
         // --- Création d'un dé ---
         function createDie(name) {
             const config = DICE_CONFIG[name];
-            const size = 1;
+            // MODIFICATION: Augmentation de la taille des dés
+            const size = 1.5; 
             
             const materials = config.faces.map(faceConfig => {
                 const canvas = document.createElement('canvas');
@@ -293,17 +293,15 @@
                 ctx.fillRect(0, 0, 256, 256);
 
                 const img = new Image();
-                img.crossOrigin = 'Anonymous'; // Nécessaire pour charger des images externes
+                img.crossOrigin = 'Anonymous'; 
 
                 return new Promise((resolve) => {
                     img.onload = () => {
-                        // Dessine l'image avec une marge
                         ctx.drawImage(img, 28, 28, 200, 200);
                         resolve(new THREE.MeshStandardMaterial({ map: new THREE.CanvasTexture(canvas) }));
                     };
                     img.onerror = () => {
                         console.error(`Impossible de charger l'image: ${faceConfig.url}`);
-                        // Fallback avec du texte en cas d'erreur de chargement
                         ctx.fillStyle = 'black';
                         ctx.font = 'bold 30px Inter';
                         ctx.textAlign = 'center';
@@ -346,7 +344,8 @@
             diceObjects = newDice;
 
             diceObjects.forEach((die, index) => {
-                die.body.position.set((Math.random() - 0.5) * 4, 5 + index, (Math.random() - 0.5) * 4);
+                // MODIFICATION: Position de départ surélevée pour les dés plus gros
+                die.body.position.set((Math.random() - 0.5) * 4, 7 + index * 2, (Math.random() - 0.5) * 4);
                 die.mesh.position.copy(die.body.position);
                 die.body.angularVelocity.set((Math.random() - 0.5) * 20, (Math.random() - 0.5) * 20, (Math.random() - 0.5) * 20);
                 die.body.velocity.set(0, -1, 0);
